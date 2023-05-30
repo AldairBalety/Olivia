@@ -5,7 +5,7 @@ const main_img = document.querySelector('.main-img');
 const feed = document.querySelector('.main-galery');
 const pagination = document.querySelector('#pagination');
 
-const token = 'IGQVJWX1NKN0hHSDljOHdnSGJRSG1DSzV0WEJyY1NzTWM5RjhCYW8wVm91TktOTzlTT2dwWUkzeFluU1dHVkhfSHk2VGdWX0lIMzRzQnVyZAmZAabXAzSDM1bVNzOGxqNng1RXBEbFRWWV9kdzRhV2tBRwZDZD';
+const token = 'IGQVJVQkRlMnpfbEg3c0Rqd1NERnpvaWRPZA2dCN3VBZAjFGMTdQVVNjRFQyU2tsdXZAvWE5zeWdUWjlMSm5FVjZAxNmUwZAE4tTm5rM0ZAqOWNmZAGtQMGlhWlZAhOGsyV1RyR0tfQ0lURnZA2a3R1clVsX1ZA0cAZDZD';
 const url =`https://graph.instagram.com/me/media?fields=thumbnail_url,media_url,caption,permalink&access_token=${token}`;
 
 fetch(url)
