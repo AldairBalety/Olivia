@@ -5,7 +5,7 @@ const main_img = document.querySelector('.main-img');
 const feed = document.querySelector('.main-galery');
 const pagination = document.querySelector('#pagination');
 
-const token = 'IGQVJYOTFoT3Njb1RJRjZAwMlJUT0wtanRacG0xRE1xdFBneWJmQ05HMWNBbF9kUnc4MXBNVjRLa0t3dEtIMDhybjdWMXNraFBQaFFxRkZAtQk5lZAlZAHbkNzY0VVVW5ib0pjM0p6TFNWMndKbTN0a19HTQZDZD';
+const token = 'IGQVJWX1NKN0hHSDljOHdnSGJRSG1DSzV0WEJyY1NzTWM5RjhCYW8wVm91TktOTzlTT2dwWUkzeFluU1dHVkhfSHk2VGdWX0lIMzRzQnVyZAmZAabXAzSDM1bVNzOGxqNng1RXBEbFRWWV9kdzRhV2tBRwZDZD';
 const url =`https://graph.instagram.com/me/media?fields=thumbnail_url,media_url,caption,permalink&access_token=${token}`;
 
 fetch(url)
@@ -14,66 +14,55 @@ fetch(url)
 
 function CreatHtml(data){
     var x = 0;
-    var liPrev = `
-    <li id="prev">
-        <a class="page-link prev" onclick="directionPage(-1)" aria-label="Previous">
-            <img src="assets/left.svg" alt="">
-        </a>
-    </li>
-    `;
+    var liPrev = '';
     for(var i = 3;i <= data.length; i += 3) {
         var display = x !== 0 ? 'none': 'block'
-        feed.innerHTML += `
-        <!-- galety -->
-        <div class="contenedor-galery-${x++}" style="display: ${display};">
-            <div class="galery">
-            <!-- 1 -->
-                <div class="img-box">
-                    <img src="${data[i-3].media_url}" alt="" />
-                    <div class="transparent-box">
-                        <div class="caption">
-                            <p class="opacity-low">${data[i].caption}</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- 2 -->
-                <div class="img-box">
-                    <img src="${data[i-2].media_url}" alt="" />
-                    <div class="transparent-box">
-                        <div class="caption">
-                            <p class="opacity-low">${data[i+1].caption}</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- 3 -->
-                <div class="img-box">
-                    <img src="${data[i-1].media_url}" alt="" />
-                    <div class="transparent-box">
-                        <div class="caption">
-                            <p class="opacity-low">${data[i+2].caption}</p>
-                        </div>
+        var Galery = "";
+        for(var j = i-2; j <= i; j++){
+            Galery +=`
+            <!-- ${j} -->
+            <div class="img-box">
+                <img src="${data[j].media_url}" alt="" />
+                <div class="transparent-box">
+                    <div class="caption">
+                        <p class="opacity-low">${data[j].caption}</p>
                     </div>
                 </div>
             </div>
+            `;
+        }
+        var Feed = `
+        <!-- galety -->
+        <div class="contenedor-galery-${x++}" style="display: ${display};">
+            <div class="galery">
+            ${Galery}
+            </div>
         </div>
-        <!-- end galery -->
-        `;
-        liPrev += `
-        <li class="page-item act"><a class="page-link" id="page${x}" onclick="changePage(this)">${x}</a></li>
-        `
+        <!-- end galery -->`;
+        liPrev += `<li class="page-item act"><a class="page-link" id="page${x}" onclick="changePage(this)">${x}</a></li>`;
+        Galery =+ "";
+        feed.innerHTML += Feed; 
     }
-    liPrev += `
-    <li id="next">
-        <a class="page-link next" onclick="directionPage(+1)" aria-label="Next">
-            <img src="assets/right.svg" alt="">
-        </a>
-    </li>
-    `;
-    pagination.innerHTML = liPrev;
-    MaingImg(data);
+    if(liPrev !== "undefined"){
+        pagination.innerHTML = liPrev;
+    }
 }
-function MaingImg(data){
+var i;
+function changePage(elem) {
+    for (i = 0; i <= $(elem).closest('ul').attr('id').length - 6; i++) {
+        if (i == $(elem).text()) {
+            $(`.contenedor-galery-${$(elem).text()}`).css("display", "block")
+        } else {
+            $(`.contenedor-galery-${i}`).css("display", "none")
+        }
+    }
 }
+function test(t) {
+    if (t === undefined) {
+      return 'Undefined value!';
+    }
+    return t;
+  }
 function moveGalery(e){
     if (e.target.id === 'next' || e.target.parentElement.id === 'next' ) {
         feed.scrollLeft += feed.offsetWidth;
